@@ -11,43 +11,46 @@ Categories = ['femdom', 'tickle', 'classic', 'ngif', 'erofeet', 'meow', 'erok', 
 
 SendCategories = "\n".join(Categories)
 
-def GetURL(BaseUrl):
-    resp = requests.get(BaseUrl)
-    URL = resp.json()["url"]
+class Nekos:
+    def __init__(self, Choice):
+        if Choice.lower() in Categories:
+            self.Choice = Choice
 
-    return(URL)
+        elif Choice.lower() == "random":
+            self.Choice = random.choice(Categories)
+
+    def GetURL(self):
+        try:
+            BaseURL = f"https://www.nekos.life/api/v2/img/{self.Choice}"
+            resp = requests.get(BaseURL)
+            URL = resp.json()["url"]
+
+        except AttributeError:
+            URL = "This is not a valid category! Use `!nekos help` to view the categories."
+
+        return(URL)
 
 @Client.event
-async def on_ready(): # Connection confirmation.
+async def on_ready():
     print(f"We have logged in as {Client.user}.")
 
-@Client.event # Event wrapper.
+@Client.event
 async def on_message(message, *args):
-    print(f"\nNew message in {message.channel}:") # Outputs message in the terminal.
+    print(f"\nNew message in {message.channel}:")
     print(f"    Author: {message.author} / {message.author.id}\n    Screen name: {message.author.name}\n    Message: {message.content}\n    Date: {message.created_at}")
 
 
     if message.content.startswith("!nekos"):
         Option = message.content.split(" ")[1]
 
-        if Option.lower() == "random":
-            Category = random.choice(Categories)
-
-        elif Option.lower() in Categories:
-            Category = Option.lower()
-
-        elif Option.lower() == "help":
-            await message.channel.send(f"The available categories are:```{SendCategories}```")
+        if Option.lower() == "help":
+            await message.channel.send(f"The available commands are:```{SendCategories}```You can also use `!nekos random` if you can't decide.")
 
         else:
-            await message.channel.send("That is not a valid option! Use `!nekos help` for a category list.")
+            Request = Nekos(Option)
+            URL = Request.GetURL()
 
-        try:
-            BaseURL = f"https://www.nekos.life/api/v2/img/{Category}"
-            URL = GetURL(BaseURL)
             await message.channel.send(URL)
-        except UnboundLocalError:
-            print("")
     
 
 
