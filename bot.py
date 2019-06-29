@@ -39,9 +39,7 @@ async def on_ready():
 
 @Client.event
 async def on_message(message, *args):
-    print(f"\nNew message in {message.channel}:")
-    print(f"    Author: {message.author} / {message.author.id}\n    Screen name: {message.author.name}\n    Message: {message.content}\n    Date: {message.created_at}")
-
+    print(f"\nNew message in {message.channel} by {message.author.name} at {message.created_at}")
 
     if message.content.startswith("!nekos"):
         Option = message.content.split(" ")[1]
