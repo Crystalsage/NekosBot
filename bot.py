@@ -2,7 +2,7 @@
 
 import discord, requests, asyncio, random
 
-client = discord.Client()
+Client = discord.Client()
 BotID = 594472175478505483
 Token = open("Token.txt", 'r').read()
 
@@ -11,17 +11,17 @@ Categories = ['femdom', 'tickle', 'classic', 'ngif', 'erofeet', 'meow', 'erok', 
 
 SendCategories = "\n".join(str(x) for x in Categories)
 
-def GetURL(url):
-    resp = requests.get(url)
-    URL = resp.text[8:-3]
+def GetURL(BaseUrl):
+    resp = requests.get(BaseUrl)
+    URL = resp.json["url"]
 
     return(URL)
 
-@client.event
+@Client.event
 async def on_ready(): # Connection confirmation.
-    print(f"We have logged in as {client.user}.")
+    print(f"We have logged in as {Client.user}.")
 
-@client.event # Event wrapper.
+@Client.event # Event wrapper.
 async def on_message(message, *args):
     print(f"\nNew message in {message.channel}:") # Outputs message in the terminal.
     print(f"    Author: {message.author} / {message.author.id}\n    Screen name: {message.author.name}\n    Message: {message.content}\n    Date: {message.created_at}")
@@ -51,4 +51,4 @@ async def on_message(message, *args):
     
 
 
-client.run(Token)
+Client.run(Token)
