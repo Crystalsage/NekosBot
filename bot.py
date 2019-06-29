@@ -2,14 +2,15 @@
 
 import discord, requests, asyncio, random
 
+
 Client = discord.Client()
 BotID = 594472175478505483
 Token = open("Token.txt", 'r').read()
 
 
 Categories = ['femdom', 'tickle', 'classic', 'ngif', 'erofeet', 'meow', 'erok', 'poke', 'les', 'v3', 'hololewd', 'nekoapi_v3.1', 'lewdk', 'keta', 'feetg', 'nsfw_neko_gif', 'eroyuri', 'kiss', '8ball', 'kuni', 'tits', 'pussy_jpg', 'cum_jpg', 'pussy', 'lewdkemo', 'lizard', 'slap', 'lewd', 'cum', 'cuddle', 'spank', 'smallboobs', 'goose', 'Random_hentai_gif', 'avatar', 'fox_girl', 'nsfw_avatar', 'hug', 'gecg', 'boobs', 'pat', 'feet', 'smug', 'kemonomimi', 'solog', 'holo', 'wallpaper', 'bj', 'woof', 'yuri', 'trap', 'anal', 'baka', 'blowjob', 'holoero', 'feed', 'neko', 'gasm', 'hentai', 'futanari', 'ero', 'solo', 'waifu', 'pwankg', 'eron', 'erokemo']
-
 SendCategories = "\n".join(Categories)
+
 
 class Nekos:
     def __init__(self, Choice):
@@ -30,9 +31,11 @@ class Nekos:
 
         return(URL)
 
+
 @Client.event
 async def on_ready():
     print(f"We have logged in as {Client.user}.")
+
 
 @Client.event
 async def on_message(message, *args):
@@ -52,6 +55,5 @@ async def on_message(message, *args):
 
             await message.channel.send(URL)
     
-
 
 Client.run(Token)
