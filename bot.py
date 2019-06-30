@@ -53,13 +53,9 @@ async def on_message(message, *args):
             try:
                 URL = Request.GetURL()
                 Image = Request.ShowImage(URL)
+                await message.channel.send(file=discord.File(fp=Image, filename=URL.split('/')[-1]))
+                
             except AttributeError:
                 await message.channel.send("This is not a valid category! Use `!nekos help` to view the categories.")
-
-            try:
-                await message.channel.send(file=discord.File(fp=Image, filename=URL.split('/')[-1]))
-
-            except UnboundLocalError:
-                print()
 
 Client.run(Token)
