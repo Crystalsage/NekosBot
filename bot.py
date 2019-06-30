@@ -1,6 +1,7 @@
 #https://discordapp.com/oauth2/authorize?client_id=594472175478505483&scope=bot&permissions=52288
 
-import discord, requests, asyncio, random
+import discord, requests, asyncio, random, io
+from PIL import Image
 
 
 Client = discord.Client()
@@ -21,16 +22,16 @@ class Nekos:
             self.Choice = random.choice(Categories)
 
     def GetURL(self):
-        try:
-            BaseURL = f"https://www.nekos.life/api/v2/img/{self.Choice}"
-            resp = requests.get(BaseURL)
-            URL = resp.json()["url"]
-
-        except AttributeError:
-            URL = "This is not a valid category! Use `!nekos help` to view the categories."
+        BaseURL = f"https://www.nekos.life/api/v2/img/{self.Choice}"
+        resp = requests.get(BaseURL)
+        URL = resp.json()["url"]
 
         return(URL)
 
+    def ShowImage(self, url):
+        GETimage = requests.get(url)
+        Image = io.BytesIO(GETimage.content)
+        return(Image)
 
 @Client.event
 async def on_ready():
@@ -49,9 +50,16 @@ async def on_message(message, *args):
 
         else:
             Request = Nekos(Option)
-            URL = Request.GetURL()
+            try:
+                URL = Request.GetURL()
+                Image = Request.ShowImage(URL)
+            except AttributeError:
+                await message.channel.send("This is not a valid category! Use `!nekos help` to view the categories.")
 
-            await message.channel.send(URL)
-    
+            try:
+                await message.channel.send(file=discord.File(fp=Image, filename=URL.split('/')[-1]))
+
+            except UnboundLocalError:
+                print()
 
 Client.run(Token)
