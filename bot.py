@@ -1,7 +1,6 @@
 #https://discordapp.com/oauth2/authorize?client_id=594472175478505483&scope=bot&permissions=52288
 
 import discord, requests, asyncio, random, io
-from PIL import Image
 
 
 Client = discord.Client()
@@ -54,7 +53,7 @@ async def on_message(message, *args):
                 URL = Request.GetURL()
                 Image = Request.ShowImage(URL)
                 await message.channel.send(file=discord.File(fp=Image, filename=URL.split('/')[-1]))
-                
+
             except AttributeError:
                 await message.channel.send("This is not a valid category! Use `!nekos help` to view the categories.")
 
