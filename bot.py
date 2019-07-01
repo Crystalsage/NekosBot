@@ -54,7 +54,9 @@ async def on_message(message, *args):
         SendCategories = "\n".join(ListType)
 
         if Option.lower() == "help":
-            await message.channel.send(f"The available commands are:```{SendCategories}```You can also use `!nekos random` if you can't decide.")
+            await message.author.create_dm()
+            await message.author.send(f"The available commands are:```{SendCategories}```You can also use `!nekos random` if you can't decide.")
+            await message.channel.send("Check your DM's :wink:")
 
         elif not message.channel.is_nsfw() and Option in NSFcategories:
             await message.channel.send("You have selected a NSFW category but you're not in a NSFW channel, please enter a NSFW channel or select a SFW category.")
